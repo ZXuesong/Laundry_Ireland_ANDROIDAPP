@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_homepage"
+            android:icon="@drawable/homepage"
+            android:title="HOMEPAGE" />
+        <item
+            android:id="@+id/nav_forecast"
+            android:icon="@drawable/forecast"
+            android:title="FORECAST" />
+        <item
+            android:id="@+id/nav_sensor"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="SENSOR" />
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/settings"
+            android:title="SETTING" />
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/help"
+            android:title="HELP" />
+        <item
+            android:id="@+id/nav_check"
+            android:icon="@drawable/keep_check"
+            android:title="KEEP IN CHECK" />
+    </group>
+
+
+</menu>
