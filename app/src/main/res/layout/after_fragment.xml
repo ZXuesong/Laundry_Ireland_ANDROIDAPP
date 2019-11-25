@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity$PlaceholderFragment">
+
+    <TextView
+        android:id="@+id/after_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="78dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/raleway_bold"
+        android:gravity="center"
+        android:text="Estimated\nWeather Score"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tomorrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="55dp"
+        android:fontFamily="@font/raleway_bold"
+        android:gravity="center"
+        android:text="Tomorrow__________5/6"
+        android:textColor="#000033"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/after_title" />
+    <TextView
+        android:id="@+id/tomorrow_dry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="1dp"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="center"
+        android:text="1-2h"
+        android:textColor="#000033"
+        android:textSize="18sp"
+        app:layout_constraintRight_toRightOf="@id/tomorrow"
+        app:layout_constraintTop_toBottomOf="@id/tomorrow" />
+
+    <TextView
+        android:id="@+id/secondday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="55dp"
+        android:fontFamily="@font/raleway_bold"
+        android:gravity="center"
+        android:text="Friday______________4/6"
+        android:textColor="#000033"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tomorrow" />
+    <TextView
+        android:id="@+id/secondday_dry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="1dp"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="center"
+        android:text="1-2h"
+        android:textColor="#000033"
+        android:textSize="18sp"
+        app:layout_constraintRight_toRightOf="@id/secondday"
+        app:layout_constraintTop_toBottomOf="@id/secondday" />
+
+    <TextView
+        android:id="@+id/thirdday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="55dp"
+        android:fontFamily="@font/raleway_bold"
+        android:gravity="center"
+        android:text="Saturday___________6/6"
+        android:textColor="#000033"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/secondday" />
+    <TextView
+        android:id="@+id/thirdday_dry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="1dp"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="center"
+        android:text="1-2h"
+        android:textColor="#000033"
+        android:textSize="18sp"
+        app:layout_constraintRight_toRightOf="@id/thirdday"
+        app:layout_constraintTop_toBottomOf="@id/thirdday" />
+
+</android.support.constraint.ConstraintLayout>

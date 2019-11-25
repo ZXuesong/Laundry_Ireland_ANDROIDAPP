@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity$PlaceholderFragment">
+
+    <TextView
+        android:id="@+id/today_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="115dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="center"
+        android:text="5 p.m"
+        android:textColor="#000033"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/today_time"
+        android:maxHeight="2dp"
+        android:max="24"
+        android:progress="12"
+        android:thumb="@drawable/seek_bar_thumb"
+        android:progressDrawable="@drawable/seek_bar_bg"/>
+
+    <TextView
+        android:id="@+id/today_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="76dp"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/raleway_bold"
+        android:gravity="center"
+        android:text="Estimated\nWeather Score"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekbar" />
+
+    <TextView
+        android:id="@+id/today_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="124dp"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/raleway_bold"
+        android:gravity="center"
+        android:text="4/6"
+        android:textColor="#000000"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/today_title" />
+
+    <TextView
+        android:id="@+id/today_dry_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/raleway_light"
+        android:gravity="center"
+        android:text="estimated drying time: 2-3 h"
+        android:textColor="#000033"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/today_number" />
+
+</android.support.constraint.ConstraintLayout>
