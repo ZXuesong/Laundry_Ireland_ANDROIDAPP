@@ -12,10 +12,7 @@
             android:id="@+id/nav_forecast"
             android:icon="@drawable/forecast"
             android:title="FORECAST" />
-        <item
-            android:id="@+id/nav_sensor"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="SENSOR" />
+
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/settings"

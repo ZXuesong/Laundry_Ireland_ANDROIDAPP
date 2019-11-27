@@ -96,7 +96,7 @@ public class AfterFragment extends Fragment {
             forecastIndex = i-1;
         }
         TodayFragment.ForecastDetail cur = listFore.get(forecastIndex);
-        String url = "http:178.128.46.9/getForecast?pwd=comp47570&temp="+cur.temp+"&hum="+cur.humidity+"&pres="+cur.pressure+"&weat="+cur.weather+"&wind="+cur.wind;
+        String url = "http:178.128.46.9/getForecast?pwd=comp******&temp="+cur.temp+"&hum="+cur.humidity+"&pres="+cur.pressure+"&weat="+cur.weather+"&wind="+cur.wind;
         return url;
     }
 
@@ -116,6 +116,8 @@ public class AfterFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.i("result","ddasdasdasdas");
+                Calendar cal = Calendar.getInstance();
+                final int iw = cal.get(Calendar.DAY_OF_WEEK);
                 double d = parseJsonWithJsonObjectFlask(response);
                 final String shortScore = String.format("%.1f",d);
                 final int tdtn = (int)d;
@@ -131,7 +133,7 @@ public class AfterFragment extends Fragment {
                     AfterFragment.this.se.post(new Runnable() {
                         @Override
                         public void run() {
-                            se.setText(getWeek(i+1)+shortScore+"/4");
+                            se.setText(getWeek(iw+1)+shortScore+"/4");
                             sedt.setText(esDryTime[tdtn]);
                         }
                     });
@@ -139,7 +141,7 @@ public class AfterFragment extends Fragment {
                     AfterFragment.this.th.post(new Runnable() {
                         @Override
                         public void run() {
-                            th.setText(getWeek(i+2)+shortScore+"/4");
+                            th.setText(getWeek(iw+2)+shortScore+"/4");
                             thdt.setText(esDryTime[tdtn]);
                         }
                     });

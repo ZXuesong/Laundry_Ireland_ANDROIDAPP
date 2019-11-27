@@ -146,8 +146,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_forecast) {
             Intent intent = new Intent(MainActivity.this,ForecastActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_sensor) {
-
         } else if (id == R.id.nav_setting) {
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(intent);
