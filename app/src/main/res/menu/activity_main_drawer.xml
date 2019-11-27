@@ -20,10 +20,7 @@
             android:id="@+id/nav_setting"
             android:icon="@drawable/settings"
             android:title="SETTING" />
-        <item
-            android:id="@+id/nav_help"
-            android:icon="@drawable/help"
-            android:title="HELP" />
+
         <item
             android:id="@+id/nav_check"
             android:icon="@drawable/keep_check"

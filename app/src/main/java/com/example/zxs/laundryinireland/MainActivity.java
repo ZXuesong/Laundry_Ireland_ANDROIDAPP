@@ -1,36 +1,55 @@
 package com.example.zxs.laundryinireland;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
+     * The {@link androidx.viewpager.widget.PagerAdapter;} that will provide
      * fragments for each of the sections. We use a
      * {@link FragmentPagerAdapter} derivative, which will keep every
      * loaded fragment in memory. If this becomes too memory intensive, it
      * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     * {@link androidx.fragment.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -39,6 +58,11 @@ public class MainActivity extends AppCompatActivity
      */
     private ViewPager mViewPager;
 
+    private FirebaseAuth mAuth;
+
+    static TextView advice = null;
+    static boolean isIndoor = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +70,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -71,6 +88,19 @@ public class MainActivity extends AppCompatActivity
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        advice = findViewById(R.id.advice);
+
+
+
+        mAuth = FirebaseAuth.getInstance();
+
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this) ;
+        isIndoor = prefs.getBoolean("indoor",false);
     }
 
     @Override
@@ -119,10 +149,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_sensor) {
 
         } else if (id == R.id.nav_setting) {
-
-        } else if (id == R.id.nav_help) {
-
-        } else if (id == R.id.nav_check) {
+            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+            startActivity(intent);
+        }  else if (id == R.id.nav_check) {
 
         }
 
@@ -140,8 +169,9 @@ public class MainActivity extends AppCompatActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-
+        private DatabaseReference mDatabase ;
         public PlaceholderFragment() {
+
         }
 
         /**
@@ -160,12 +190,107 @@ public class MainActivity extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = null;
+
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference[] weather = {mDatabase.child("devices").child("80:7D:3A:3C:D2:44").child("records")};
+
             if(getArguments().getInt(ARG_SECTION_NUMBER)==1){
                 rootView = inflater.inflate(R.layout.fragment_1, container, false);
+                final TextView weatherText = (TextView) rootView.findViewById(R.id.image_description);
+                final ImageView weatherPic = (ImageView)rootView.findViewById(R.id.weather_image) ;
+                Query last = weather[0].orderByKey().limitToLast(1);
+                ValueEventListener eventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot ds : dataSnapshot.getChildren()){
+                            String wea = ds.child("weather").getValue().toString();
+                            weatherText.setText(wea);
+                            if(wea.equals("Rain") || wea.equals("Drizzle")){
+                                weatherPic.setImageResource(R.drawable.rain);
+
+                            }else if(wea.equals("Cloud")){
+                                weatherPic.setImageResource(R.drawable.cloud);
+                            }else if(wea.equals("Sunny")){
+                                weatherPic.setImageResource((R.drawable.sun));
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                };
+                last.addValueEventListener(eventListener);
             }else if(getArguments().getInt(ARG_SECTION_NUMBER)==2){
                 rootView = inflater.inflate(R.layout.fragment_2, container, false);
+                final TextView dryScore = (TextView)rootView.findViewById(R.id.score_number);
+                final TextView dryTime = (TextView)rootView.findViewById(R.id.score_time);
+                final String[] outAdvice ={"No Laundry today, the weather is bad :(",
+                        "It would be difficult to dry with this weather",
+                        "It's not the best weather, but give it a try!",
+                        "Hurry up, this weather won't last for long!",
+                        "Take Advantage of this good weather to do your washing! ( and go Outside! )"};
+                final String[] inAdvice = {"Switch on the heater or use a de-humidifier or a fan to improve drying",
+                        "Did you know? heaters, de-humidifier, fan or wind can improve drying",
+                        "Reduce humidity to avoid bad smelling clothes!",
+                        "leave your clothes hanging at home and have a great day!",
+                        "Your clothes will be dry in a few hours, enjoy the rest of your day!"};
+                final String[] esDryTime ={"N.D",
+                        ">4 h",
+                        "4 h",
+                        "2 h",
+                        "1 h"
+                };
+                Query last = weather[0].orderByKey().limitToLast(1);
+                ValueEventListener eventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot ds : dataSnapshot.getChildren()){
+                            if(isIndoor == false){
+                               double rec = Double.parseDouble(ds.child("OutdoorDryScore").getValue().toString());
+                               int i = (int) rec;
+                               String score = String.format("%.1f",rec);
+                               dryScore.setText(score+"/4");
+                               dryTime.setText("estimated drying time: "+esDryTime[i]);
+                               advice.setText(outAdvice[i]);
+                            }else{
+                                double rec = Double.parseDouble(ds.child("IndoorDryScore").getValue().toString());
+                                int i = (int) rec;
+                                String score = String.format("%.1f",rec);
+                                dryScore.setText(score+"/4");
+                                dryTime.setText("estimated drying time: "+esDryTime[i]);
+                                advice.setText(inAdvice[i]);
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                };
+                last.addValueEventListener(eventListener);
             }else if(getArguments().getInt(ARG_SECTION_NUMBER)==3){
                 rootView = inflater.inflate(R.layout.fragment_3, container, false);
+                final TextView temp = (TextView)rootView.findViewById(R.id.temperature);
+                final TextView hum = (TextView)rootView.findViewById(R.id.humidity);
+                final TextView wind = (TextView)rootView.findViewById(R.id.wind);
+
+                Query last = weather[0].orderByKey().limitToLast(1);
+                ValueEventListener eventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot ds : dataSnapshot.getChildren()){
+                            double rec = Double.parseDouble(ds.child("temperature").getValue().toString());
+                            double rec2 = Double.parseDouble(ds.child("humidity").getValue().toString());
+                            double rec3 = Double.parseDouble(ds.child("wind_speed").getValue().toString());
+                            String score = String.format("%.1f",rec);
+                            String score2 = String.format("%.1f",rec2);
+                            String score3 = String.format("%.1f",rec3);
+                            temp.setText("Temperature: "+score+" ℃");
+                            hum.setText("Humidity: "+score2+" %");
+                            wind.setText("Wind: "+score3+" km/h");
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                };
+                last.addValueEventListener(eventListener);
             }
             return rootView;
         }

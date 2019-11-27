@@ -1,25 +1,38 @@
 package com.example.zxs.laundryinireland;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class ForecastActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
     private SegmentedGroup mSegmentedGroup;
     private RadioButton radioButtonOne;
     private RadioButton radioButtonTwo;
+    private static final String url = "http://api.openweathermap.org/data/2.5/forecast?q=Dublin,ie&APPID=1f46aa0715e3f8c52ea3d1fd985ccf8a";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +40,7 @@ public class ForecastActivity extends AppCompatActivity implements RadioGroup.On
         initWidget();
         initData();
         initEvent();
+
         Toolbar toolbar = findViewById(R.id.toolbar_fore);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -70,4 +84,7 @@ public class ForecastActivity extends AppCompatActivity implements RadioGroup.On
                 break;
         }
     }
+
+
+
 }
